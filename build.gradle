@@ -1,15 +1,13 @@
 buildscript {
-    apply from: rootProject.file('dependencies.gradle')
-
     repositories {
         mavenCentral()
         google()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:$agpVersion"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-        classpath "com.vanniktech:gradle-maven-publish-plugin:$mvnPublishVersion"
-        classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokkaVersion"
+        classpath libs.agp
+        classpath libs.kotlin.plugin
+        classpath libs.mvnpublish
+        classpath libs.dokka
     }
 }
 
@@ -19,5 +17,3 @@ allprojects {
         google()
     }
 }
-
-apply from: rootProject.file('dependencies.gradle')

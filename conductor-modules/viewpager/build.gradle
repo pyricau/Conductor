@@ -2,25 +2,23 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion libs.versions.compilesdk.get() as Integer
 
     defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdkVersion libs.versions.minsdk.get()
+        targetSdkVersion libs.versions.targetsdk.get()
         versionCode Integer.parseInt(project.VERSION_CODE)
         versionName project.VERSION_NAME
     }
 }
 
 dependencies {
-    testImplementation rootProject.ext.junit
-    testImplementation rootProject.ext.robolectric
+    testImplementation libs.junit
+    testImplementation libs.robolectric
 
-    implementation rootProject.ext.androidxAppCompat
+    implementation libs.androidx.appcompat
     implementation project(':conductor')
 }
-
-apply from: rootProject.file('dependencies.gradle')
 
 ext.artifactId = 'conductor-viewpager'
 apply plugin: "com.vanniktech.maven.publish"

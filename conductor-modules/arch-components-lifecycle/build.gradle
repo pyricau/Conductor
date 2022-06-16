@@ -1,23 +1,22 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion libs.versions.compilesdk.get() as Integer
 
     defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdkVersion libs.versions.minsdk.get()
+        targetSdkVersion libs.versions.targetsdk.get()
         versionCode Integer.parseInt(project.VERSION_CODE)
         versionName project.VERSION_NAME
     }
 }
 
 dependencies {
-    api rootProject.ext.archComponentsLifecycle
+    api libs.androidx.lifecycle.runtime
 
     implementation project(':conductor')
 }
 
 ext.artifactId = 'conductor-arch-components-lifecycle'
 
-apply from: rootProject.file('dependencies.gradle')
 apply plugin: "com.vanniktech.maven.publish"

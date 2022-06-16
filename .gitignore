@@ -8,7 +8,9 @@
 *.iml
 *.ipr
 *.iws
-*.idea/dictionaries
+/.idea/*
+!/.idea/codeStyles/
+!/.idea/scopes/
 classes
 gen-external-apklibs
 

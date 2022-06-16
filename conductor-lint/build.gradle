@@ -1,17 +1,17 @@
 apply plugin: 'kotlin'
 
 configurations {
-    lintChecks
+    libs.lint.checks
 }
 
 dependencies {
-    compileOnly rootProject.ext.lintapi
-    compileOnly rootProject.ext.lintchecks
-    compileOnly rootProject.ext.kotlinStd
+    compileOnly libs.lint.api
+    compileOnly libs.lint.checks
+    compileOnly libs.kotlin.stdlib
 
-    testImplementation rootProject.ext.junit
-    testImplementation rootProject.ext.lint
-    testImplementation rootProject.ext.lintTests
+    testImplementation libs.junit
+    testImplementation libs.lint
+    testImplementation libs.lint.tests
 }
 
 jar {
@@ -19,5 +19,3 @@ jar {
         attributes('Lint-Registry-v2': 'com.bluelinelabs.conductor.lint.IssueRegistry')
     }
 }
-
-apply from: rootProject.file('dependencies.gradle')

@@ -1,24 +1,23 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion libs.versions.compilesdk.get() as Integer
 
     defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdkVersion libs.versions.minsdk.get()
+        targetSdkVersion libs.versions.targetsdk.get()
         versionCode Integer.parseInt(project.VERSION_CODE)
         versionName project.VERSION_NAME
     }
 }
 
 dependencies {
-    implementation rootProject.ext.androidxAppCompat
-    implementation rootProject.ext.androidxCollection
-    api rootProject.ext.androidxTransition
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.collection
+    api libs.androidx.transition
     implementation project(':conductor')
 }
 
 ext.artifactId = 'conductor-androidx-transition'
 
-apply from: rootProject.file('dependencies.gradle')
 apply plugin: "com.vanniktech.maven.publish"

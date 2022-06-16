@@ -1,23 +1,21 @@
-apply from: rootProject.file('dependencies.gradle')
-
 apply plugin: 'com.android.library'
 apply plugin: "com.vanniktech.maven.publish"
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion libs.versions.compilesdk.get() as Integer
 
     defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdkVersion libs.versions.minsdk.get()
+        targetSdkVersion libs.versions.targetsdk.get()
         versionCode Integer.parseInt(project.VERSION_CODE)
         versionName project.VERSION_NAME
     }
 }
 
 dependencies {
-    api rootProject.ext.rxJava2
-    api rootProject.ext.autodispose
-    api rootProject.ext.autodisposeLifecycle
+    api libs.rxjava2
+    api libs.autodispose
+    api libs.autodispose.lifecycle
 
     implementation project(':conductor')
 }
