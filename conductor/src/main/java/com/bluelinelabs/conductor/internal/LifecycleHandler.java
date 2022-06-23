@@ -1,13 +1,10 @@
 package com.bluelinelabs.conductor.internal;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Application.ActivityLifecycleCallbacks;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -16,10 +13,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import com.bluelinelabs.conductor.ActivityHostedRouter;
 import com.bluelinelabs.conductor.Router;
 
@@ -56,10 +53,10 @@ public class LifecycleHandler extends Fragment implements ActivityLifecycleCallb
     }
 
     @Nullable
-    private static LifecycleHandler findInActivity(@NonNull Activity activity) {
+    private static LifecycleHandler findInActivity(@NonNull FragmentActivity activity) {
         LifecycleHandler lifecycleHandler = activeLifecycleHandlers.get(activity);
         if (lifecycleHandler == null) {
-            lifecycleHandler = (LifecycleHandler)activity.getFragmentManager().findFragmentByTag(FRAGMENT_TAG);
+            lifecycleHandler = (LifecycleHandler)activity.getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG);
         }
         if (lifecycleHandler != null) {
             lifecycleHandler.registerActivityListener(activity);
@@ -68,11 +65,11 @@ public class LifecycleHandler extends Fragment implements ActivityLifecycleCallb
     }
 
     @NonNull
-    public static LifecycleHandler install(@NonNull Activity activity) {
+    public static LifecycleHandler install(@NonNull FragmentActivity activity) {
         LifecycleHandler lifecycleHandler = findInActivity(activity);
         if (lifecycleHandler == null) {
             lifecycleHandler = new LifecycleHandler();
-            activity.getFragmentManager().beginTransaction().add(lifecycleHandler, FRAGMENT_TAG).commit();
+            activity.getSupportFragmentManager().beginTransaction().add(lifecycleHandler, FRAGMENT_TAG).commit();
         }
         lifecycleHandler.registerActivityListener(activity);
         return lifecycleHandler;
@@ -309,7 +306,6 @@ public class LifecycleHandler extends Fragment implements ActivityLifecycleCallb
         startActivityForResult(intent, requestCode, options);
     }
 
-    @TargetApi(Build.VERSION_CODES.N)
     public void startIntentSenderForResult(@NonNull String instanceId, @NonNull IntentSender intent, int requestCode,
                                            @Nullable Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags,
                                            @Nullable Bundle options) throws IntentSender.SendIntentException {
@@ -317,7 +313,6 @@ public class LifecycleHandler extends Fragment implements ActivityLifecycleCallb
         startIntentSenderForResult(intent, requestCode, fillInIntent, flagsMask, flagsValues, extraFlags, options);
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
     public void requestPermissions(@NonNull String instanceId, @NonNull String[] permissions, int requestCode) {
         if (attached) {
             permissionRequestMap.put(requestCode, instanceId);
@@ -329,7 +324,7 @@ public class LifecycleHandler extends Fragment implements ActivityLifecycleCallb
 
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-        if (findInActivity(activity) == LifecycleHandler.this) {
+        if (findInActivity((FragmentActivity) activity) == LifecycleHandler.this) {
             this.activity = activity;
 
             for (ActivityHostedRouter router : new ArrayList<>(routerMap.values())) {

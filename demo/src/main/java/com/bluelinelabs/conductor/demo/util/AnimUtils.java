@@ -18,12 +18,9 @@ package com.bluelinelabs.conductor.demo.util;
 
 import android.animation.Animator;
 import android.animation.TimeInterpolator;
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.util.ArrayMap;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
-
 import androidx.annotation.NonNull;
 import androidx.interpolator.view.animation.FastOutLinearInInterpolator;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
@@ -82,7 +79,6 @@ public class AnimUtils {
      * Interrupting Activity transitions can yield an OperationNotSupportedException when the
      * transition tries to pause the animator. Yikes! We can fix this by wrapping the Animator:
      */
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     public static class NoPauseAnimator extends Animator {
         private final Animator mAnimator;
         private final ArrayMap<AnimatorListener, AnimatorListener> mListeners = new ArrayMap<>();

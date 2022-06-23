@@ -1,6 +1,5 @@
 package com.bluelinelabs.conductor;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -16,11 +15,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.bluelinelabs.conductor.internal.ClassUtils;
 import com.bluelinelabs.conductor.internal.OwnViewTreeLifecycleAndRegistry;
 import com.bluelinelabs.conductor.internal.RouterRequiringFunc;
@@ -612,16 +609,10 @@ public abstract class Controller {
      * including {@link #shouldShowRequestPermissionRationale(String)} and
      * {@link #onRequestPermissionsResult(int, String[], int[])} will be forwarded back to this Controller by the system.
      */
-    @TargetApi(Build.VERSION_CODES.M)
     public final void requestPermissions(@NonNull final String[] permissions, final int requestCode) {
         requestedPermissions.addAll(Arrays.asList(permissions));
 
-        executeWithRouter(new RouterRequiringFunc() {
-            @Override
-            public void execute() {
-                router.requestPermissions(instanceId, permissions, requestCode);
-            }
-        });
+        executeWithRouter(() -> router.requestPermissions(instanceId, permissions, requestCode));
     }
 
     /**
