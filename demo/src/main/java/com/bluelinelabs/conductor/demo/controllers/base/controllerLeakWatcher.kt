@@ -1,5 +1,6 @@
 package com.bluelinelabs.conductor.demo.controllers.base
 
+import android.view.View
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.ControllerChangeHandler
 import com.bluelinelabs.conductor.ControllerChangeType
@@ -13,6 +14,13 @@ private class RefWatchingControllerLifecycleListener : Controller.LifecycleListe
     if (hasExited) {
       controller.expectWeaklyReachable()
     }
+  }
+
+  override fun preDestroyView(controller: Controller, view: View) {
+    AppWatcher.objectWatcher.expectWeaklyReachable(
+      view,
+      "A destroyed controller view should have only weak references."
+    )
   }
 
   override fun onChangeEnd(
